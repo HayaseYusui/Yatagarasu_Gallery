@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="VRChat上で活動するクリエイティブプロジェクト、「公安対魔特務六課八咫烏」の公式HPです。"
+    />
+    <title>八咫烏 公式HP</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css"
+      integrity="sha512-KXol4x3sVoO+8ZsWPFI/r5KBVB/ssCGB5tsv2nVOKwLg33wTFP3fmnXa47FdSVIshVTgsYk/1734xSk9aFIa4A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"
+      integrity="sha512-Xo0Jh8MsOn72LGV8kU5LsclG7SUzJsWGhXbWcYs2MAmChkQzwiW/yTQwdJ8w6UA9C6EVG18GHb/TrYpYCjyAQw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/pagedone@1.2.2/src/css/pagedone.css "
+      rel="stylesheet"
+    />
+    <link href="./src/stylem.css" rel="stylesheet" />
+    <style>
+      .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.8);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .lightbox-image {
+        display: block;
+        margin: auto;
+        max-width: 99%;
+        max-height: 99%;
+      }
+
+      .lightbox-caption {
+        position: absolute;
+        font-size: 1.2em;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+        width: inherit;
+        max-width: 95%;
+      }
+
+      .close {
+        font-size: 3em;
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        cursor: pointer;
+      }
+      .gallery {
+        max-width: 1200px;
+        margin: 0 auto;
+        grid-template-rows: 1fr;
+        grid-column-gap: 30px;
+        grid-row-gap: 30px;
+      }
+      .gallery img {
+        max-width: 100%;
+        cursor: pointer;
+      }
+      .gallery img:hover {
+        max-width: 100%;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 本体 -->
+    <div>
+      <!-- 記事 -->
+      <main>
+        <section>
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid gap-2.5 lg:pb-16 pb-10">
+              <h2
+                class="w-full text-center text-4xl font-bold font-manrope leading-normal text-yata"
+              >
+                写真保管庫
+              </h2>
+              <div
+                class="w-full text-center text-lg font-normal leading-8 text-yata"
+              >
+                Step into a realm where art comes to life.
+              </div>
+            </div>
+            <div class="gallery">
+              <div
+                id="images-place"
+                class="grid md:grid-cols-3 grid-cols-1 gap-8"
+              >
+                <!-- ここに画像が挿入されます -->
+              </div>
+              <div id="loading-swiper" class="loader-swiper">
+                <ul class="hexagon-container">
+                  <li class="hexagon hex_1"></li>
+                  <li class="hexagon hex_2"></li>
+                  <li class="hexagon hex_3"></li>
+                  <li class="hexagon hex_4"></li>
+                  <li class="hexagon hex_5"></li>
+                  <li class="hexagon hex_6"></li>
+                  <li class="hexagon hex_7"></li>
+                </ul>
+              </div>
+              <div id="msg-loading-swiper" class="swiper-caption text-center">
+                八咫烏ネットワークに接続中……
+              </div>
+            </div>
+            <div class="lightbox" id="lightbox">
+              <span class="close" id="close">&times;</span>
+              <img src="" alt="" class="lightbox-image" id="lightbox-image" />
+              <div class="lightbox-caption" id="lightbox-caption"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <!-- Googleサイトリスペクトなフッター -->
+      <footer class="ui vertical center aligned segment">
+        <div class="ui text container">
+          <div class="pt-5">
+            <div class="inline-block">
+              <a
+                href="https://www.google.com/url?q=https%3A%2F%2Fx.com%2Fm_yata_official"
+                target="_blank"
+                ><img
+                  src="https://lh3.googleusercontent.com/pw/AP1GczMsyKVMyHh3K5hm7-SHiEXqVMIezkJgpBxE11PT3mjgPGN2fzmEvwqMxqXn4o36p-JVQzGwY5HR7WJFpU2wJkPKrv12YFsRefG2k6HR9vzHrWUKpNdmYWN0p76T53jC4nL9R-INWk0NN5lZ6Ine55s=w64-h64-s-no-gm?authuser=0"
+                  alt="リンク"
+                  class="icon"
+              /></a>
+            </div>
+          </div>
+          <small>
+            <span class="mini-text">
+              「公安対魔特務六課
+              八咫烏」の物語はフィクションです。実在の人物、団体とは一切関係ございません。<br />
+              © 2023 miyabi All Rights Reserved.
+            </span>
+          </small>
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script>
+      async function loadDatabase() {
+        fetch(
+          "https://script.google.com/macros/s/AKfycbwPftyERFNn-asTDCMRREesFNQedglwoFO58mT8VIvbh2Pj5-Npo-XktqHRLYBZtjFKlw/exec"
+        )
+          .then((res) => res.json())
+          .then((images) => imageSetter(images));
+      }
+
+      function imageSetter(images) {
+        const listContainer = document.getElementById("images-place");
+        listContainer.replaceChildren();
+
+        images.forEach((image) => {
+          const divElement = document.createElement("div");
+          divElement.className = "h-[277px] w-full rounded-3xl";
+
+          const imageElement = document.createElement("img");
+          imageElement.className =
+            "gallery-image object-cover rounded-3xl hover:grayscale transition-all duration-700 ease-in-out mx-auto w-full h-full";
+          imageElement.src = image.url;
+          imageElement.alt = image.name;
+          divElement.appendChild(imageElement);
+          listContainer.appendChild(divElement);
+        });
+
+        document.getElementById("msg-loading-swiper").remove();
+        document.getElementById("loading-swiper").remove();
+      }
+
+      loadDatabase();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/pagedone@1.2.2/src/js/pagedone.js"></script>
+    <!-- lightboxサンプルそのままのコード -->
+    <script>
+      // Get references to elements
+      const gallery = document.querySelector(".gallery");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightbox-image");
+      const closeButton = document.getElementById("close");
+      const caption = document.getElementById("lightbox-caption");
+
+      function adjustCaptionPosition() {
+        const imageRect = lightboxImage.getBoundingClientRect();
+        if (imageRect.width > imageRect.height) {
+          imageRect.top -= 56;
+        } else {
+        }
+
+        const captionEl = caption;
+
+        const imageBottom = imageRect.bottom;
+        const windowHeight = window.innerHeight;
+
+        if (windowHeight - imageBottom < captionEl.clientHeight) {
+          // 画像がほぼ下まで来てる → キャプションを画面下に固定
+          captionEl.style.bottom = "5px";
+        } else {
+          // 通常通り画像の直下に表示
+          captionEl.style.bottom = `${
+            windowHeight - imageBottom - captionEl.clientHeight
+          }px`;
+        }
+      }
+
+      // Add event listener to each image
+      gallery.addEventListener("click", (e) => {
+        if (e.target.classList.contains("gallery-image")) {
+          lightboxImage.src = e.target.src;
+          lightboxImage.onload = () => {
+            if (isImageExtension(e.target.alt)) {
+              caption.textContent = "";
+              caption.style.display = "none";
+            } else {
+              caption.textContent = e.target.alt;
+              caption.style.display = "block";
+            }
+            adjustCaptionPosition();
+          };
+          lightbox.style.display = "flex";
+        }
+      });
+
+      // Close lightbox when close button is clicked
+      closeButton.addEventListener("click", () => {
+        lightbox.style.display = "none";
+      });
+
+      // Close lightbox when clicking outside the image
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          lightbox.style.display = "none";
+        }
+      });
+
+      function isImageExtension(url) {
+        const imageExtensions = [
+          ".jpg",
+          ".jpeg",
+          ".png",
+          ".gif",
+          ".bmp",
+          ".webp",
+          ".svg",
+        ];
+        const lowerUrl = url.toLowerCase();
+        return imageExtensions.some((ext) => lowerUrl.endsWith(ext));
+      }
+    </script>
+  </body>
+</html>
