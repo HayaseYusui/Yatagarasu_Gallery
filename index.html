@@ -38,38 +38,6 @@
     />
     <link href="./src/stylem.css" rel="stylesheet" />
     <style>
-      .lightbox {
-        display: none;
-        position: fixed;
-        z-index: 999;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        background-color: rgba(0, 0, 0, 0.8);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-      .lightbox-image {
-        display: block;
-        margin: auto;
-        max-width: 99%;
-        max-height: 99%;
-      }
-
-      .lightbox-caption {
-        position: absolute;
-        font-size: 1.2em;
-        background: rgba(0, 0, 0, 0.6);
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-align: center;
-        width: inherit;
-        max-width: 95%;
-      }
-
       .close {
         font-size: 3em;
         position: absolute;
@@ -106,12 +74,12 @@
               <h2
                 class="w-full text-center text-4xl font-bold font-manrope leading-normal text-yata"
               >
-                写真保管庫
+                八咫烏フォトコンテスト(2025年5月開催)
               </h2>
               <div
                 class="w-full text-center text-lg font-normal leading-8 text-yata"
               >
-                Step into a realm where art comes to life.
+                エントリー作品を表示しています。
               </div>
             </div>
             <div class="gallery">
@@ -135,11 +103,6 @@
               <div id="msg-loading-swiper" class="swiper-caption text-center">
                 八咫烏ネットワークに接続中……
               </div>
-            </div>
-            <div class="lightbox" id="lightbox">
-              <span class="close" id="close">&times;</span>
-              <img src="" alt="" class="lightbox-image" id="lightbox-image" />
-              <div class="lightbox-caption" id="lightbox-caption"></div>
             </div>
           </div>
         </section>
@@ -169,13 +132,17 @@
         </div>
       </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script
+      async
+      src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"
+    ></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script>
       async function loadDatabase() {
         fetch(
-          "https://script.google.com/macros/s/AKfycbwPftyERFNn-asTDCMRREesFNQedglwoFO58mT8VIvbh2Pj5-Npo-XktqHRLYBZtjFKlw/exec"
+          "https://script.google.com/macros/s/AKfycbwyz4ds90YzjlhovySRXlXZuBsEbeqivEYRvr1SzipdemwQT5PeNVKL3GSlLm12Hf4Z/exec?name=202505"
         )
           .then((res) => res.json())
           .then((images) => imageSetter(images));
@@ -185,19 +152,34 @@
         const listContainer = document.getElementById("images-place");
         listContainer.replaceChildren();
 
-        images.forEach((image) => {
-          const divElement = document.createElement("div");
-          divElement.className = "h-[277px] w-full rounded-3xl";
+        const fragment = document.createDocumentFragment(); // 一括追加用
 
-          const imageElement = document.createElement("img");
-          imageElement.className =
-            "gallery-image object-cover rounded-3xl hover:grayscale transition-all duration-700 ease-in-out mx-auto w-full h-full";
-          imageElement.src = image.url;
-          imageElement.alt = image.name;
-          divElement.appendChild(imageElement);
-          listContainer.appendChild(divElement);
+        images.forEach((image, index) => {
+          const divElement = document.createElement("div");
+          divElement.className = "w-full";
+
+          const blockquote = document.createElement("blockquote");
+          blockquote.className = "twitter-tweet";
+
+          const anchor = document.createElement("a");
+          anchor.href = image.url.replace(
+            /^https:\/\/x\.com/,
+            "https://twitter.com"
+          );
+
+          blockquote.appendChild(anchor);
+          divElement.appendChild(blockquote);
+          fragment.appendChild(divElement);
         });
 
+        listContainer.appendChild(fragment); // 一括追加
+
+        // Twitterウィジェットの読み込み
+        if (window.twttr && window.twttr.widgets) {
+          window.twttr.widgets.load();
+        }
+
+        // ローディング表示を削除
         document.getElementById("msg-loading-swiper").remove();
         document.getElementById("loading-swiper").remove();
       }
@@ -205,81 +187,5 @@
       loadDatabase();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/pagedone@1.2.2/src/js/pagedone.js"></script>
-    <!-- lightboxサンプルそのままのコード -->
-    <script>
-      // Get references to elements
-      const gallery = document.querySelector(".gallery");
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImage = document.getElementById("lightbox-image");
-      const closeButton = document.getElementById("close");
-      const caption = document.getElementById("lightbox-caption");
-
-      function adjustCaptionPosition() {
-        const imageRect = lightboxImage.getBoundingClientRect();
-        if (imageRect.width > imageRect.height) {
-          imageRect.top -= 56;
-        } else {
-        }
-
-        const captionEl = caption;
-
-        const imageBottom = imageRect.bottom;
-        const windowHeight = window.innerHeight;
-
-        if (windowHeight - imageBottom < captionEl.clientHeight) {
-          // 画像がほぼ下まで来てる → キャプションを画面下に固定
-          captionEl.style.bottom = "5px";
-        } else {
-          // 通常通り画像の直下に表示
-          captionEl.style.bottom = `${
-            windowHeight - imageBottom - captionEl.clientHeight
-          }px`;
-        }
-      }
-
-      // Add event listener to each image
-      gallery.addEventListener("click", (e) => {
-        if (e.target.classList.contains("gallery-image")) {
-          lightboxImage.src = e.target.src;
-          lightboxImage.onload = () => {
-            if (isImageExtension(e.target.alt)) {
-              caption.textContent = "";
-              caption.style.display = "none";
-            } else {
-              caption.textContent = e.target.alt;
-              caption.style.display = "block";
-            }
-            adjustCaptionPosition();
-          };
-          lightbox.style.display = "flex";
-        }
-      });
-
-      // Close lightbox when close button is clicked
-      closeButton.addEventListener("click", () => {
-        lightbox.style.display = "none";
-      });
-
-      // Close lightbox when clicking outside the image
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) {
-          lightbox.style.display = "none";
-        }
-      });
-
-      function isImageExtension(url) {
-        const imageExtensions = [
-          ".jpg",
-          ".jpeg",
-          ".png",
-          ".gif",
-          ".bmp",
-          ".webp",
-          ".svg",
-        ];
-        const lowerUrl = url.toLowerCase();
-        return imageExtensions.some((ext) => lowerUrl.endsWith(ext));
-      }
-    </script>
   </body>
 </html>
